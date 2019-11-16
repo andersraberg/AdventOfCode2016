@@ -92,8 +92,8 @@ public class Day1 {
         }
     }
 
-    private static Position _firstRevisitedposition = null;
-    private static Set<Position> _visitedPositions = new HashSet<>();
+    private static Position firstRevisitedposition = null;
+    private static Set<Position> visitedPositions = new HashSet<>();
 
     public static void run() throws IOException {
         String[] iterations = new String(Files.readAllBytes(Paths.get("inputs/input1.txt"))).trim().split(", ");
@@ -103,7 +103,7 @@ public class Day1 {
 
         for (String iter : iterations) {
             Turn turn = Turn.valueOf(iter.substring(0, 1));
-            int steps = Integer.valueOf(iter.substring(1, iter.length()));
+            int steps = Integer.parseInt(iter.substring(1, iter.length()));
             switch (turn) {
             case L:
                 dir = dir.turnLeft();
@@ -119,15 +119,16 @@ public class Day1 {
                 northSouthSteps += dir._northSouth;
                 eastWestSteps += dir._eastWest;
 
-                if (!_visitedPositions.add(new Position(northSouthSteps, eastWestSteps))
-                        && _firstRevisitedposition == null) {
+                if (!visitedPositions.add(new Position(northSouthSteps, eastWestSteps))
+                        && firstRevisitedposition == null) {
 
-                    _firstRevisitedposition = new Position(northSouthSteps, eastWestSteps);
+                    firstRevisitedposition = new Position(northSouthSteps, eastWestSteps);
                 }
             }
         }
-        LOGGER.log(Level.INFO, "Distance: " + (Math.abs(northSouthSteps) + Math.abs(eastWestSteps)));
-        LOGGER.log(Level.INFO, "Pos: "
-                + (Math.abs(_firstRevisitedposition._northSouth) + Math.abs(_firstRevisitedposition._eastWest)));
+        int distance = Math.abs(northSouthSteps) + Math.abs(eastWestSteps);
+        int pos = Math.abs(firstRevisitedposition._northSouth) + Math.abs(firstRevisitedposition._eastWest);
+        LOGGER.log(Level.INFO, () -> String.format("Distance: %s", distance));
+        LOGGER.log(Level.INFO, () -> String.format("Pos: %s", pos));
     }
 }
