@@ -1,13 +1,21 @@
-apply plugin: 'java'
-apply plugin: 'application'
-apply plugin: 'eclipse'
+plugins {
+    id "java"
+    id "application"
+    id "eclipse"
+    id "jacoco"
+    id "org.sonarqube" version "2.7"
+}
 
 repositories {
     jcenter()
 }
 
+jacoco {
+    applyTo run
+}
+
 dependencies {
-    testCompile 'junit:junit:4.12'
+    testImplementation 'junit:junit:4.12'
 }
 
 mainClassName = 'se.anders_raberg.adventofcode2016.DaysMain'
