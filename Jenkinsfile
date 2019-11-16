@@ -22,9 +22,9 @@ node {
     }
 
     stage('Report') {
-        junit 'build/test-results/**/*.xml'
+        junit allowEmptyResults: true, testResults: 'build/test-results/**/*.xml'
         sh 'mv build/reports/profile/*.html build/reports/profile/index.html'
-        publishHTML([allowMissing: true,
+        publishHTML([allowMissing: false,
                      alwaysLinkToLastBuild: false,
                      keepAll: true,
                      reportDir: 'build/reports/profile/',
