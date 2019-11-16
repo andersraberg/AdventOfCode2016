@@ -24,7 +24,7 @@ node {
     stage('Report') {
         junit 'build/test-results/**/*.xml'
         sh 'mv build/reports/profile/*.html build/reports/profile/index.html'
-        publishHTML([allowMissing: false,
+        publishHTML([allowMissing: true,
                      alwaysLinkToLastBuild: false,
                      keepAll: true,
                      reportDir: 'build/reports/profile/',
