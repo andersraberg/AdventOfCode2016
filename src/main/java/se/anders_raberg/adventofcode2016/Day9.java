@@ -14,14 +14,15 @@ public class Day9 {
     private Day9() {
     }
 
-    private static final StringBuilder UNCOMPRESSED_DATA = new StringBuilder();
+    private static StringBuilder UNCOMPRESSED_DATA = new StringBuilder();
 
     public static void run() throws IOException {
         String rawData = new String(Files.readAllBytes(Paths.get("inputs/input9.txt"))).replaceAll("\\s+", "");
 
         parseString(rawData);
-        
+
         LOGGER.info(() -> String.format("Part 1 : Length : %s", UNCOMPRESSED_DATA.length()));
+        LOGGER.info(() -> String.format("Part 2 : Length : %s", countDecrompress(rawData)));
     }
 
     private static void parseString(String data) {
@@ -40,4 +41,22 @@ public class Day9 {
             UNCOMPRESSED_DATA.append(data);
         }
     }
+
+    private static long countDecrompress(String input) {
+        long count = 0;
+        while (input.contains("(")) {
+            count += input.substring(0, input.indexOf("(")).length();
+            int A = Integer.parseInt(input.substring(input.indexOf("(") + 1, input.indexOf("x")));
+            int B = Integer.parseInt(input.substring(input.indexOf("x") + 1, input.indexOf(")")));
+
+            String decompress = input.substring(input.indexOf(")")+1, input.indexOf(")") + A + 1);
+            count += B * countDecrompress(decompress);
+
+            input = input.substring(input.indexOf(")") + A + 1);
+        }
+        count += input.length();
+
+        return count;
+    }
+
 }
